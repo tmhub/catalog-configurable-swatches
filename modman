@@ -1,0 +1,5 @@
+app/code/community/TM/CatalogConfigurableSwatches                       app/code/community/TM/CatalogConfigurableSwatches
+app/design/frontend/base/default/layout/tm/configurableswatches.xml     app/design/frontend/base/default/layout/tm/configurableswatches.xml
+app/design/frontend/base/default/template/tm/configurableswatches       app/design/frontend/base/default/template/tm/configurableswatches
+app/etc/modules/TM_CatalogConfigurableSwatches.xml                      app/etc/modules/TM_CatalogConfigurableSwatches.xml
+skin/frontend/base/default/tm/configurableswatches                      skin/frontend/base/default/tm/configurableswatches

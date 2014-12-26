@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <TM_CatalogConfigurableSwatches>
+            <version>1.0.0</version>
+        </TM_CatalogConfigurableSwatches>
+    </modules>
+    <frontend>
+        <layout>
+            <updates>
+                <catalogconfigurableswatches>
+                    <file>tm/configurableswatches.xml</file>
+                </catalogconfigurableswatches>
+            </updates>
+        </layout>
+    </frontend>
+</config>

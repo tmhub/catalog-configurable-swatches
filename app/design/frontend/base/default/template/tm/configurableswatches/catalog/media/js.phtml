@@ -1,0 +1,20 @@
+<?php
+/**
+ * Duplicate of default magento template to add suport for ajax loaded products
+ */
+?>
+<?php
+    /* @var $this Mage_ConfigurableSwatches_Block_Catalog_Media_Js_Abstract */
+?>
+
+<script type="text/javascript">
+ if ('complete' === document.readyState) {
+    ConfigurableMediaImages.init('<?php echo $this->getImageType(); ?>');
+    <?php
+    $keepFrame = ($this->getRequest()->getControllerName() !== 'product'); // enabled for the product page only
+    foreach ($this->getProductImageFallbacks($keepFrame) as $imageFallback): ?>
+    ConfigurableMediaImages.setImageFallback(<?php echo $imageFallback['product']->getId(); ?>, $j.parseJSON('<?php echo $imageFallback['image_fallback']; ?>'));
+    <?php endforeach; ?>
+    $j(document).trigger('configurable-media-images-init', ConfigurableMediaImages);
+ }
+</script>

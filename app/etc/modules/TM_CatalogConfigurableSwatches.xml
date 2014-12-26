@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <TM_CatalogConfigurableSwatches>
+            <active>true</active>
+            <codePool>community</codePool>
+        </TM_CatalogConfigurableSwatches>
+    </modules>
+</config>

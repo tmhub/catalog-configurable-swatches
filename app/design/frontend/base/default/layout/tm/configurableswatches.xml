@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addJs"><script>lib/jquery/jquery-1.10.2.min.js</script></action>
+            <action method="addJs"><script>lib/jquery/noconflict.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>js/lib/modernizr.custom.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/lib/imagesloaded.js</name></action>
+
+            <action method="addItem"><type>skin_js</type><name>tm/configurableswatches/js/app.js</name></action>
+            <action method="addItem"><type>skin_css</type><name>tm/configurableswatches/css/swatches.css</name></action>
+        </reference>
+    </default>
+
+    <!-- Create missing containers in layered navigation and product_list blocks -->
+    <catalog_category_layered>
+        <reference name="catalog.leftnav">
+            <block type="core/text_list" name="catalog.leftnav.state.renderers" as="state_renderers" />
+        </reference>
+        <reference name="product_list">
+            <block type="core/text_list" name="product_list.name.after" as="name.after" />
+            <block type="core/text_list" name="product_list.after" as="after" />
+        </reference>
+    </catalog_category_layered>
+    <catalogsearch_result_index>
+        <reference name="catalogsearch.leftnav">
+            <block type="core/text_list" name="catalog.leftnav.state.renderers" as="state_renderers" />
+        </reference>
+    </catalogsearch_result_index>
+    <catalogsearch_product_list>
+        <reference name="search_result_list">
+            <block type="core/text_list" name="product_list.name.after" as="name.after" />
+            <block type="core/text_list" name="product_list.after" as="after" />
+        </reference>
+    </catalogsearch_product_list>
+    <PRODUCT_TYPE_configurable>
+        <reference name="product.info.media">
+            <block type="core/text_list" name="product.info.media.after" as="after" />
+        </reference>
+        <reference name="product.info.options.configurable">
+            <block type="core/text_list" name="product.info.options.configurable.renderers" as="attr_renderers" />
+            <block type="core/text_list" name="product.info.options.configurable.after" as="after" />
+        </reference>
+    </PRODUCT_TYPE_configurable>
+    <!-- // -->
+
+    <product_list>
+        <reference name="product_list.after">
+            <block type="configurableswatches/catalog_media_js_list" name="configurableswatches.media.js.list.ajax">
+                <action method="setTemplate"><template>tm/configurableswatches/catalog/media/js.phtml</template></action>
+            </block>
+        </reference>
+    </product_list>
+
+    <catalog_category_default>
+        <update handle="catalog_product_list"/>
+        <!-- Hack to apply updates from magento configurableswatches.xml again -->
+        <update handle="product_list"/>
+    </catalog_category_default>
+
+    <catalog_category_layered>
+        <update handle="catalog_product_list"/>
+        <update handle="product_list"/>
+    </catalog_category_layered>
+
+    <catalogsearch_result_index>
+        <update handle="catalogsearch_product_list"/>
+        <update handle="product_list"/>
+    </catalogsearch_result_index>
+
+    <catalogsearch_advanced_result>
+        <update handle="catalogsearch_product_list"/>
+        <update handle="product_list"/>
+    </catalogsearch_advanced_result>
+
+    <PRODUCT_TYPE_configurable>
+        <!--
+            Duplicate the code that affects blocks that where added above
+            Can't use the hack, that was used above because of handle name is not specific for swatches
+        -->
+        <reference name="product.info.media.after">
+            <block type="configurableswatches/catalog_media_js_product" name="configurableswatches.media.js.product" />
+        </reference>
+        <reference name="product.info.options.configurable.renderers">
+            <block type="configurableswatches/catalog_product_view_type_configurable_swatches" template="configurableswatches/catalog/product/view/type/options/configurable/swatches.phtml" />
+        </reference>
+        <reference name="product.info.options.configurable.after">
+            <block type="core/template" template="configurableswatches/catalog/product/view/type/configurable/swatch-js.phtml" />
+        </reference>
+        <!-- end of duplicate -->
+
+        <!-- fix for quickshopping and ajaxpro -->
+        <reference name="product.info.options.configurable.after">
+            <block type="core/template" template="tm/configurableswatches/catalog/product/view/type/configurable/swatch-js.phtml" />
+        </reference>
+    </PRODUCT_TYPE_configurable>
+</layout>
