@@ -20,12 +20,14 @@ Magento 1.9.1 ConfigurableSwatches integration module
     $ modman clone git@github.com:tmhub/catalog-configurable-swatches.git
 
 **Manual installation**
+
 Unpack archive to the Magento root directory, disable compilation and clear cache.
 
 ### Required modifications
 **Copy the following files and folders from RWD to your theme:**
 
 > Replace the `PACKAGE/THEME` with your values in commands below. For example default/f001, default/f001_grey.
+> If you are planning to use colorswatches on all of your themes, you can replace the `PACKAGE/THEME` with base/default.
 
     cd /path/to/magento
 
