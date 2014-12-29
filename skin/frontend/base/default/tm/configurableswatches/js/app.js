@@ -182,7 +182,7 @@ var ProductMediaManager = {
     wireThumbnails: function() {},
 
     createZoom: function(image) {
-        var img = $j('.product-image img');
+        var img = $j('.product-img-box .product-image img');
 
         var srcset = img.attr('srcset'),
             newSrc = image.attr('src');
@@ -206,7 +206,7 @@ var ProductMediaManager = {
         targetImage = $j(targetImage);
         targetImage.addClass('gallery-image');
 
-        var imageGallery = $j('.product-image');
+        var imageGallery = $j('.product-img-box .product-image');
 
         if (targetImage[0].complete) {
             ProductMediaManager.createZoom(targetImage);

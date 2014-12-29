@@ -45,6 +45,10 @@
     <!-- // -->
 
     <product_list>
+        <reference name="head">
+             <!-- ajaxpro, quickshopping fix -->
+            <action method="addItem"><type>skin_js</type><name>js/configurableswatches/swatches-product.js</name></action>
+        </reference>
         <reference name="product_list.after">
             <block type="configurableswatches/catalog_media_js_list" name="configurableswatches.media.js.list.ajax">
                 <action method="setTemplate"><template>tm/configurableswatches/catalog/media/js.phtml</template></action>
