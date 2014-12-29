@@ -27,6 +27,7 @@ Unpack archive to the Magento root directory, disable compilation and clear cach
 **Copy the following files and folders from RWD to your theme:**
 
 > Replace the `PACKAGE/THEME` with your values in commands below. For example default/f001, default/f001_grey.
+
 > If you are planning to use colorswatches on all of your themes, you can replace the `PACKAGE/THEME` with base/default.
 
     cd /path/to/magento
@@ -53,6 +54,7 @@ In case if your theme already have these files, please make sure to copy the
 colorswatches modifications into your files.
 
 **Open `app/design/frontend/PACKAGE/THEME/template/catalog/product/list.phtml`**
+and modify original code in two places (For grid and list modes).
 
 * Add the `id` attribute to the image element:
 
