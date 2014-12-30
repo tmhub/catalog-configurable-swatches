@@ -47,14 +47,16 @@ mv app/design/frontend/PACKAGE/THEME/template/catalog/layer/state.phtml app/desi
 mv app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options/configurable.phtml app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options/configurable.phtml.bak
 
 # copy files from RWD to PACKAGE/THEME
+mkdir -p app/design/frontend/PACKAGE/THEME/template/catalog/layer
+mkdir -p app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options
 cp app/design/frontend/rwd/default/layout/configurableswatches.xml app/design/frontend/PACKAGE/THEME/layout/configurableswatches.xml
 cp -r app/design/frontend/rwd/default/template/configurableswatches app/design/frontend/PACKAGE/THEME/template/configurableswatches
 cp app/design/frontend/rwd/default/template/catalog/layer/state.phtml app/design/frontend/PACKAGE/THEME/template/catalog/layer/state.phtml
 cp app/design/frontend/rwd/default/template/catalog/product/view/type/options/configurable.phtml app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options/configurable.phtml
 
 # copy js from rwd to PACKAGE/THEME
-cp -r skin/frontend/rwd/default/js/configurableswatches skin/frontend/PACKAGE/THEME/js/configurableswatches
 mkdir -p skin/frontend/PACKAGE/THEME/js/lib
+cp -r skin/frontend/rwd/default/js/configurableswatches skin/frontend/PACKAGE/THEME/js/configurableswatches
 cp skin/frontend/rwd/default/js/lib/imagesloaded.js skin/frontend/PACKAGE/THEME/js/lib/imagesloaded.js
 cp skin/frontend/rwd/default/js/lib/modernizr.custom.min.js skin/frontend/PACKAGE/THEME/js/lib/modernizr.custom.min.js
 ```
