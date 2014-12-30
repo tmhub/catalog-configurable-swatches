@@ -19,16 +19,15 @@ Magento 1.9.1 ConfigurableSwatches integration module
 
 ## Installation
 #### Deploy module
-**Install with [modman](https://github.com/colinmollenhour/modman)**
+Unpack archive to the Magento root directory, disable compilation and clear cache.
+
+Or, if you are using [modman](https://github.com/colinmollenhour/modman) you can
+deploy the module with command line:
 
 ```bash
 cd /path/to/magento
 modman clone git@github.com:tmhub/catalog-configurable-swatches.git
 ```
-
-**Manual installation**
-
-Unpack archive to the Magento root directory, disable compilation and clear cache.
 
 #### Required modifications
 **Copy the following files and folders from RWD to your theme:**
