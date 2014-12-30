@@ -98,3 +98,55 @@ and modify original code in two places (For grid and list modes).
 
 2. Navigate to the `System > Configuration > Catalog > Product Image` and set
     the `Small Image Width` option to match your theme product images size.
+
+### Known issues
+##### Image size gets smaller, when selecting options inside ajax popup (AjaxPro or QuickShopping for example).
+Unfortunately it can't be fixed, because of Magento ConfigurableColorswatches
+javascript design. It uses the singleton instance of ConfigurableMediaImages object
+which is created in listing with listing parameters and can't be changed for particular
+elements only.
+
+##### Image gets resized, when selecting options on the catalogsearch page
+This issue is caused by incomplete condition in [app/code/core/Mage/ConfigurableSwatches/Block/Catalog/Media/Js/Abstract.php][block-media-js-abstract]
+on line 72-73:
+
+```php
+$listBlock = $this->getLayout()->getBlock('product_list');
+if ($listBlock && $listBlock->getMode() == 'grid') {
+```
+
+Product list block on catalogsearch page is called `search_result_list`. This issue could
+be fixed in two ways:
+
+1. Applying the following patch to the `Abstract.php` block:
+
+    ```diff
+    @@ -70,6 +70,9 @@
+
+             if ($keepFrame === null) {
+                 $listBlock = $this->getLayout()->getBlock('product_list');
+    +            if (!$listBlock) {
+    +                $listBlock = $this->getLayout()->getBlock('search_result_list');
+    +            }
+                 if ($listBlock && $listBlock->getMode() == 'grid') {
+                     $keepFrame = true;
+                 } else {
+
+    ```
+
+2. Applying the following path to the `app/design/frontend/PACKAGE/THEME/template/configurableswatches/catalog/media/js.phtml`:
+
+    ```diff
+    @@ -31,7 +31,8 @@
+     <script type="text/javascript">
+         $j(document).on('product-media-loaded', function() {
+             ConfigurableMediaImages.init('<?php echo $this->getImageType(); ?>');
+    -        <?php foreach ($this->getProductImageFallbacks() as $imageFallback): ?>
+    +        <?php $keepFrame = ($this->getRequest()->getControllerName() !== 'product'); // enabled for the product page only
+    +        foreach ($this->getProductImageFallbacks($keepFrame) as $imageFallback): ?>
+             ConfigurableMediaImages.setImageFallback(<?php echo $imageFallback['product']->getId(); ?>, $j.parseJSON('<?php echo $imageFallback['image_fallback']; ?>'));
+             <?php endforeach; ?>
+             $j(document).trigger('configurable-media-images-init', ConfigurableMediaImages);
+    ```
+
+[block-media-js-abstract]: https://github.com/speedupmate/Magento-CE-Mirror/blob/master/app/code/core/Mage/ConfigurableSwatches/Block/Catalog/Media/Js/Abstract.php#L72-L73 "Mage/ConfigurableSwatches/Block/Catalog/Media/Js/Abstract.php"
