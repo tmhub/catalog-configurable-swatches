@@ -149,7 +149,7 @@ be fixed in two ways:
          $j(document).on('product-media-loaded', function() {
              ConfigurableMediaImages.init('<?php echo $this->getImageType(); ?>');
     -        <?php foreach ($this->getProductImageFallbacks() as $imageFallback): ?>
-    +        <?php $keepFrame = ($this->getRequest()->getControllerName() !== 'product'); // enabled for the product page only
+    +        <?php $keepFrame = ($this->getRequest()->getControllerName() !== 'product');
     +        foreach ($this->getProductImageFallbacks($keepFrame) as $imageFallback): ?>
              ConfigurableMediaImages.setImageFallback(<?php echo $imageFallback['product']->getId(); ?>, $j.parseJSON('<?php echo $imageFallback['image_fallback']; ?>'));
              <?php endforeach; ?>
