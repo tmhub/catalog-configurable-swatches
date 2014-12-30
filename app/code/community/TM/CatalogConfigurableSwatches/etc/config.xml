@@ -6,12 +6,16 @@
         </TM_CatalogConfigurableSwatches>
     </modules>
     <frontend>
-        <layout>
+        <tm_layout>
             <updates>
-                <catalogconfigurableswatches>
+                <catalogconfigurableswatches
+                    module="TM_CatalogConfigurableSwatches"
+                    condition="core/isModuleOutputEnabled"
+                    args="Mage_ConfigurableSwatches"
+                >
                     <file>tm/configurableswatches.xml</file>
                 </catalogconfigurableswatches>
             </updates>
-        </layout>
+        </tm_layout>
     </frontend>
 </config>
