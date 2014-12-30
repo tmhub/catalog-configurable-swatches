@@ -1,6 +1,15 @@
 Magento 1.9.1 ConfigurableSwatches integration module
 =====================================================
 
+**[Installation](#installation)**
+ 1. [Deploy files into magento folder](#deploy-module).
+ 2. [Modify templates and copy required files from RWD theme](#required-modifications).
+ 3. [Configure swatches](#configuration).
+
+**[Known issues](#known-issues)**
+ 1. [Image becomes smaller, when selecting options inside ajax popup](#image-becomes-smaller-when-selecting-options-inside-ajax-popup-ajaxpro-or-quickshopping-for-example)
+ 2. [Image gets resized, when selecting options on the catalogsearch page](#image-gets-resized-when-selecting-options-on-the-catalogsearch-page)
+
 ## What does the module do?
 1. Add required containers and blocks to the category and product view pages.
 2. Add required javascripts and styles.
@@ -9,11 +18,7 @@ Magento 1.9.1 ConfigurableSwatches integration module
 5. Fixes some bugs of ConfigurableSwatches module.
 
 ## Installation
-1. [Deploy files into magento folder](#deploy-module).
-3. [Modify templates and copy required files from RWD theme](#required-modifications).
-2. [Configure swatches](#configuration).
-
-### Deploy module
+#### Deploy module
 **Install with [modman](https://github.com/colinmollenhour/modman)**
 
 ```bash
@@ -25,7 +30,7 @@ modman clone git@github.com:tmhub/catalog-configurable-swatches.git
 
 Unpack archive to the Magento root directory, disable compilation and clear cache.
 
-### Required modifications
+#### Required modifications
 **Copy the following files and folders from RWD to your theme:**
 
 > Replace the `PACKAGE/THEME` with your values in commands below. For example default/f001, default/f001_grey.
@@ -92,15 +97,15 @@ and modify original code in two places (For grid and list modes).
     <?php echo $this->getChildHtml('after'); ?>
     ```
 
-### Configuration
+#### Configuration
 1. Navigate to the `System > Configuration > Configurable Swatches > General`,
     enable Magento module and select the options to transform into swatches.
 
 2. Navigate to the `System > Configuration > Catalog > Product Image` and set
     the `Small Image Width` option to match your theme product images size.
 
-### Known issues
-##### Image size gets smaller, when selecting options inside ajax popup (AjaxPro or QuickShopping for example).
+## Known issues
+##### Image becomes smaller, when selecting options inside ajax popup (AjaxPro or QuickShopping for example).
 Unfortunately it can't be fixed, because of Magento ConfigurableColorswatches
 javascript design. It uses the singleton instance of ConfigurableMediaImages object
 which is created in listing with listing parameters and can't be changed for particular
