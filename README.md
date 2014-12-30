@@ -16,8 +16,10 @@ Magento 1.9.1 ConfigurableSwatches integration module
 ### Deploy module
 **Install with [modman](https://github.com/colinmollenhour/modman)**
 
-    $ cd /path/to/magento
-    $ modman clone git@github.com:tmhub/catalog-configurable-swatches.git
+```bash
+cd /path/to/magento
+modman clone git@github.com:tmhub/catalog-configurable-swatches.git
+```
 
 **Manual installation**
 
@@ -30,25 +32,27 @@ Unpack archive to the Magento root directory, disable compilation and clear cach
 
 > If you are planning to use colorswatches on all of your themes, you can replace the `PACKAGE/THEME` with base/default.
 
-    cd /path/to/magento
+```bash
+cd /path/to/magento
 
-    # backup files if exists
-    mv app/design/frontend/PACKAGE/THEME/layout/configurableswatches.xml app/design/frontend/PACKAGE/THEME/layout/configurableswatches.xml.bak
-    mv app/design/frontend/PACKAGE/THEME/template/configurableswatches app/design/frontend/PACKAGE/THEME/template/configurableswatches.bak
-    mv app/design/frontend/PACKAGE/THEME/template/catalog/layer/state.phtml app/design/frontend/PACKAGE/THEME/template/catalog/layer/state.phtml.bak
-    mv app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options/configurable.phtml app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options/configurable.phtml.bak
+# backup files if exists
+mv app/design/frontend/PACKAGE/THEME/layout/configurableswatches.xml app/design/frontend/PACKAGE/THEME/layout/configurableswatches.xml.bak
+mv app/design/frontend/PACKAGE/THEME/template/configurableswatches app/design/frontend/PACKAGE/THEME/template/configurableswatches.bak
+mv app/design/frontend/PACKAGE/THEME/template/catalog/layer/state.phtml app/design/frontend/PACKAGE/THEME/template/catalog/layer/state.phtml.bak
+mv app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options/configurable.phtml app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options/configurable.phtml.bak
 
-    # copy files from RWD to PACKAGE/THEME
-    cp app/design/frontend/rwd/default/layout/configurableswatches.xml app/design/frontend/PACKAGE/THEME/layout/configurableswatches.xml
-    cp -r app/design/frontend/rwd/default/template/configurableswatches app/design/frontend/PACKAGE/THEME/template/configurableswatches
-    cp app/design/frontend/rwd/default/template/catalog/layer/state.phtml app/design/frontend/PACKAGE/THEME/template/catalog/layer/state.phtml
-    cp app/design/frontend/rwd/default/template/catalog/product/view/type/options/configurable.phtml app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options/configurable.phtml
+# copy files from RWD to PACKAGE/THEME
+cp app/design/frontend/rwd/default/layout/configurableswatches.xml app/design/frontend/PACKAGE/THEME/layout/configurableswatches.xml
+cp -r app/design/frontend/rwd/default/template/configurableswatches app/design/frontend/PACKAGE/THEME/template/configurableswatches
+cp app/design/frontend/rwd/default/template/catalog/layer/state.phtml app/design/frontend/PACKAGE/THEME/template/catalog/layer/state.phtml
+cp app/design/frontend/rwd/default/template/catalog/product/view/type/options/configurable.phtml app/design/frontend/PACKAGE/THEME/template/catalog/product/view/type/options/configurable.phtml
 
-    # copy js from rwd to PACKAGE/THEME
-    cp -r skin/frontend/rwd/default/js/configurableswatches skin/frontend/PACKAGE/THEME/js/configurableswatches
-    mkdir -p skin/frontend/PACKAGE/THEME/js/lib
-    cp skin/frontend/rwd/default/js/lib/imagesloaded.js skin/frontend/PACKAGE/THEME/js/lib/imagesloaded.js
-    cp skin/frontend/rwd/default/js/lib/modernizr.custom.min.js skin/frontend/PACKAGE/THEME/js/lib/modernizr.custom.min.js
+# copy js from rwd to PACKAGE/THEME
+cp -r skin/frontend/rwd/default/js/configurableswatches skin/frontend/PACKAGE/THEME/js/configurableswatches
+mkdir -p skin/frontend/PACKAGE/THEME/js/lib
+cp skin/frontend/rwd/default/js/lib/imagesloaded.js skin/frontend/PACKAGE/THEME/js/lib/imagesloaded.js
+cp skin/frontend/rwd/default/js/lib/modernizr.custom.min.js skin/frontend/PACKAGE/THEME/js/lib/modernizr.custom.min.js
+```
 
 In case if your theme already have these files, please make sure to copy the
 colorswatches modifications into your files.
