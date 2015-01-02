@@ -1,0 +1,11 @@
+{
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tmhub/catalog-configurable-swatches.git"
+    },
+    "dependencies": {
+        "gulp": "*",
+        "gulp-filesize": "*",
+        "gulp-zip": "*"
+    }
+}

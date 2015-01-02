@@ -1,0 +1,18 @@
+{
+    "minimum-stability": "dev",
+    "require": {
+        "tm/catalog-configurable-swatches": "*",
+        "symfony/console": "<2.5"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://tmhub.github.io/packages"
+        }
+    ],
+    "extra": {
+        "magento-root-dir": "code/",
+        "magento-deploystrategy": "copy",
+        "magento-force": true
+    }
+}
