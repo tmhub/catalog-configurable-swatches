@@ -5,13 +5,19 @@
             <version>1.0.0</version>
         </TM_CatalogConfigurableSwatches>
     </modules>
+    <global>
+        <helpers>
+            <catalogconfigurableswatches>
+                <class>TM_CatalogConfigurableSwatches_Helper</class>
+            </catalogconfigurableswatches>
+        </helpers>
+    </global>
     <frontend>
         <tm_layout>
             <updates>
                 <catalogconfigurableswatches
                     module="TM_CatalogConfigurableSwatches"
-                    condition="core/isModuleOutputEnabled"
-                    args="Mage_ConfigurableSwatches"
+                    condition="catalogconfigurableswatches/isEnabled"
                 >
                     <file>tm/configurableswatches.xml</file>
                 </catalogconfigurableswatches>
