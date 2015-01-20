@@ -91,6 +91,23 @@ and modify original code in two places (For grid and list modes).
     ?>
     ```
 
+* Add the following code at the bottom of the file:
+
+    ```php
+    <?php
+    // Provides a block where additional page components may be attached, primarily good for in-page JavaScript
+    if ($this->getChild('after')) {
+        $_afterChildren = $this->getChild('after')->getSortedChildren();
+        foreach ($_afterChildren as $_afterChildName) {
+            $_afterChild = $this->getChild('after')->getChild($_afterChildName);
+            //set product collection on after blocks
+            $_afterChild->setProductCollection($_productCollection);
+            echo $_afterChild->toHtml();
+        }
+    }
+    ?>
+    ```
+
 **Open `app/design/frontend/PACKAGE/THEME/template/catalog/product/view/media.phtml`**
 
 * Add the following code to the bottom of the template:
