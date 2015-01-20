@@ -33,7 +33,7 @@ modman clone git@github.com:tmhub/catalog-configurable-swatches.git
 #### Required modifications
 **Copy the following files and folders from RWD to your theme:**
 
-> Replace the `PACKAGE/THEME` with your values in commands below. For example default/f001, default/f001_grey.
+> Replace the `PACKAGE/THEME` with your values in commands below. For example f001/default, default/custom_theme.
 
 > If you are planning to use colorswatches on all of your themes, you can replace the `PACKAGE/THEME` with base/default.
 
