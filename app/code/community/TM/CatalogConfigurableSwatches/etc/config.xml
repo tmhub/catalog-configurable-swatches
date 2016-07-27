@@ -1,5 +1,14 @@
 <?xml version="1.0"?>
 <config>
+
+    <default>
+        <tmcore>
+            <jslibs>
+                <jquery>1</jquery>
+            </jslibs>
+        </tmcore>
+    </default>
+
     <modules>
         <TM_CatalogConfigurableSwatches>
             <version>1.0.0</version>
