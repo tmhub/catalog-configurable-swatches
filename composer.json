@@ -4,7 +4,7 @@
     "homepage": "https://github.com/tmhub/catalog-configurable-swatches",
     "license": "OSL-3.0",
     "description": "Magento 1.9.1 ConfigurableSwatches integration module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Templates-Master Team",
