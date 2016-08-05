@@ -11,6 +11,12 @@
     </default>
 
     <!-- Create missing containers in layered navigation and product_list blocks -->
+    <catalog_category_default>
+        <reference name="product_list">
+            <block type="core/text_list" name="product_list.name.after" as="name.after" />
+            <block type="core/text_list" name="product_list.after" as="after" />
+        </reference>
+    </catalog_category_default>
     <catalog_category_layered>
         <reference name="catalog.leftnav">
             <block type="core/text_list" name="catalog.leftnav.state.renderers" as="state_renderers" />
