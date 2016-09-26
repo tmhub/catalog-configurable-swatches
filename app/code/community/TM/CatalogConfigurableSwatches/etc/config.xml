@@ -15,6 +15,11 @@
         </TM_CatalogConfigurableSwatches>
     </modules>
     <global>
+        <models>
+            <catalogconfigurableswatches>
+                <class>TM_CatalogConfigurableSwatches_Model</class>
+            </catalogconfigurableswatches>
+        </models>
         <helpers>
             <catalogconfigurableswatches>
                 <class>TM_CatalogConfigurableSwatches_Helper</class>
@@ -32,5 +37,15 @@
                 </catalogconfigurableswatches>
             </updates>
         </tm_layout>
+        <events>
+            <controller_action_layout_generate_blocks_after>
+                <observers>
+                    <catalogconfigurableswatches>
+                        <class>catalogconfigurableswatches/observer</class>
+                        <method>convertLayerBlock</method>
+                    </catalogconfigurableswatches>
+                </observers>
+            </controller_action_layout_generate_blocks_after>
+        </events>
     </frontend>
 </config>
