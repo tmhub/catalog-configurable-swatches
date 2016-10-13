@@ -46,6 +46,14 @@
                     </catalogconfigurableswatches>
                 </observers>
             </controller_action_layout_generate_blocks_after>
+            <catalog_product_view_config>
+                <observers>
+                    <catalogconfigurableswatches>
+                        <class>catalogconfigurableswatches/observer</class>
+                        <method>addPriceDuplicateIdSuffix</method>
+                    </catalogconfigurableswatches>
+                </observers>
+            </catalog_product_view_config>
         </events>
     </frontend>
 </config>

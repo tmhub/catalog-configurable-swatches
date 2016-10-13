@@ -24,4 +24,19 @@ class TM_CatalogConfigurableSwatches_Model_Observer
             Mage::helper('configurableswatches/productlist')->convertLayerBlock($blockName);
         }
     }
+
+    /**
+     * Add price recalculation for _clone price element
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function addPriceDuplicateIdSuffix(Varien_Event_Observer $observer)
+    {
+        $options = $observer->getResponseObject()->getAdditionalOptions();
+        if (!is_array($options)) {
+            $options = array();
+        }
+        $options['idSuffix'] = '_clone';
+        $observer->getResponseObject()->setAdditionalOptions($options);
+    }
 }
