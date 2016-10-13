@@ -192,12 +192,7 @@ var ProductMediaManager = {
             if (image.attr('srcset')) {
                 img.attr('srcset', image.attr('srcset'));
             } else {
-                var newSrcset = '';
-                srcset.split(',').each(function(rule) {
-                    rule = rule.split(' ');
-                    newSrcset = newSrc + ' ' + rule[1];
-                });
-                img.attr('srcset', newSrcset);
+                img.removeAttr('srcset');
             }
         }
     },
