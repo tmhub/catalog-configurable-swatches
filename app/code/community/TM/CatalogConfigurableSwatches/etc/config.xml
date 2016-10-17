@@ -1,19 +1,11 @@
 <?xml version="1.0"?>
 <config>
-
-    <default>
-        <tmcore>
-            <jslibs>
-                <jquery>1</jquery>
-            </jslibs>
-        </tmcore>
-    </default>
-
     <modules>
         <TM_CatalogConfigurableSwatches>
-            <version>1.0.3</version>
+            <version>1.1.0</version>
         </TM_CatalogConfigurableSwatches>
     </modules>
+
     <global>
         <models>
             <catalogconfigurableswatches>
@@ -26,6 +18,7 @@
             </catalogconfigurableswatches>
         </helpers>
     </global>
+
     <frontend>
         <tm_layout>
             <updates>
@@ -60,4 +53,12 @@
             </catalog_product_view_config>
         </events>
     </frontend>
+
+    <default>
+        <tmcore>
+            <jslibs>
+                <jquery>1</jquery>
+            </jslibs>
+        </tmcore>
+    </default>
 </config>
