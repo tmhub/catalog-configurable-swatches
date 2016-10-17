@@ -39,4 +39,22 @@ class TM_CatalogConfigurableSwatches_Model_Observer
         $options['idSuffix'] = '_clone';
         $observer->getResponseObject()->setAdditionalOptions($options);
     }
+
+    public function addCatalogProductListPriceBlock(Varien_Event_Observer $observer)
+    {
+        $layout = $observer->getLayout();
+        $handles = $observer->getLayout()->getUpdate()->getHandles();
+        if (in_array('product_list', $handles)) {
+            if (@class_exists('Mage_ConfigurableSwatches_Block_Catalog_Product_List_Price')) {
+                $parent = $layout->getBlock('product_list.after');
+                if ($parent && !$parent->getChild('configurableswatches.price.js.list')) {
+                    $block = $layout->createBlock(
+                        'configurableswatches/catalog_product_list_price',
+                        'configurableswatches.price.js.list'
+                    );
+                    $parent->append($block);
+                }
+            }
+        }
+    }
 }

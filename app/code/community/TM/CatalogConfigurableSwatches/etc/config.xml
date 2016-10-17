@@ -44,6 +44,10 @@
                         <class>catalogconfigurableswatches/observer</class>
                         <method>convertLayerBlock</method>
                     </catalogconfigurableswatches>
+                    <catalogconfigurableswatches_product_list_price>
+                        <class>catalogconfigurableswatches/observer</class>
+                        <method>addCatalogProductListPriceBlock</method>
+                    </catalogconfigurableswatches_product_list_price>
                 </observers>
             </controller_action_layout_generate_blocks_after>
             <catalog_product_view_config>
