@@ -10,6 +10,10 @@ class TM_CatalogConfigurableSwatches_Model_Observer
      */
     public function convertLayerBlock(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('catalogconfigurableswatches')->isEnabled()) {
+            return;
+        }
+
         $front = Mage::app()->getRequest()->getRouteName();
         $controller = Mage::app()->getRequest()->getControllerName();
         $action = Mage::app()->getRequest()->getActionName();
