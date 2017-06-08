@@ -3,14 +3,13 @@
     "type": "magento-module",
     "homepage": "https://github.com/tmhub/catalog-configurable-swatches",
     "license": "OSL-3.0",
-    "description": "Magento 1.9.1 ConfigurableSwatches integration module",
+    "description": "Magento 1.9.1-1.9.3 ConfigurableSwatches integration module",
     "authors": [
         {
             "name": "Templates-Master Team",
             "email": "support@templates-master.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "tm/core": "*"
     }
