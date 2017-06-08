@@ -24,205 +24,210 @@
  *   is using touch pointer input, or has switched from mouse to touch input.
  *   It can be observed in this manner: $j(window).on('touch-detected', function(event) { // custom code });
  */
-var PointerManager = {
-    MOUSE_POINTER_TYPE: 'mouse',
-    TOUCH_POINTER_TYPE: 'touch',
-    POINTER_EVENT_TIMEOUT_MS: 500,
-    standardTouch: false,
-    touchDetectionEvent: null,
-    lastTouchType: null,
-    pointerTimeout: null,
-    pointerEventLock: false,
 
-    getPointerEventsSupported: function() {
-        return this.standardTouch;
-    },
+if (typeof PointerManager === 'undefined') {
+    var PointerManager = {
+        MOUSE_POINTER_TYPE: 'mouse',
+        TOUCH_POINTER_TYPE: 'touch',
+        POINTER_EVENT_TIMEOUT_MS: 500,
+        standardTouch: false,
+        touchDetectionEvent: null,
+        lastTouchType: null,
+        pointerTimeout: null,
+        pointerEventLock: false,
 
-    getPointerEventsInputTypes: function() {
-        if (window.navigator.pointerEnabled) { //IE 11+
-            //return string values from http://msdn.microsoft.com/en-us/library/windows/apps/hh466130.aspx
-            return {
-                MOUSE: 'mouse',
-                TOUCH: 'touch',
-                PEN: 'pen'
-            };
-        } else if (window.navigator.msPointerEnabled) { //IE 10
-            //return numeric values from http://msdn.microsoft.com/en-us/library/windows/apps/hh466130.aspx
-            return {
-                MOUSE:  0x00000004,
-                TOUCH:  0x00000002,
-                PEN:    0x00000003
-            };
-        } else { //other browsers don't support pointer events
-            return {}; //return empty object
+        getPointerEventsSupported: function() {
+            return this.standardTouch;
+        },
+
+        getPointerEventsInputTypes: function() {
+            if (window.navigator.pointerEnabled) { //IE 11+
+                //return string values from http://msdn.microsoft.com/en-us/library/windows/apps/hh466130.aspx
+                return {
+                    MOUSE: 'mouse',
+                    TOUCH: 'touch',
+                    PEN: 'pen'
+                };
+            } else if (window.navigator.msPointerEnabled) { //IE 10
+                //return numeric values from http://msdn.microsoft.com/en-us/library/windows/apps/hh466130.aspx
+                return {
+                    MOUSE:  0x00000004,
+                    TOUCH:  0x00000002,
+                    PEN:    0x00000003
+                };
+            } else { //other browsers don't support pointer events
+                return {}; //return empty object
+            }
+        },
+
+        /**
+         * If called before init(), get best guess of input pointer type
+         * using Modernizr test.
+         * If called after init(), get current pointer in use.
+         */
+        getPointer: function() {
+            // On iOS devices, always default to touch, as this.lastTouchType will intermittently return 'mouse' if
+            // multiple touches are triggered in rapid succession in Safari on iOS
+            if(Modernizr.ios) {
+                return this.TOUCH_POINTER_TYPE;
+            }
+
+            if(this.lastTouchType) {
+                return this.lastTouchType;
+            }
+
+            return Modernizr.touch ? this.TOUCH_POINTER_TYPE : this.MOUSE_POINTER_TYPE;
+        },
+
+        setPointerEventLock: function() {
+            this.pointerEventLock = true;
+        },
+        clearPointerEventLock: function() {
+            this.pointerEventLock = false;
+        },
+        setPointerEventLockTimeout: function() {
+            var that = this;
+
+            if(this.pointerTimeout) {
+                clearTimeout(this.pointerTimeout);
+            }
+
+            this.setPointerEventLock();
+            this.pointerTimeout = setTimeout(function() { that.clearPointerEventLock(); }, this.POINTER_EVENT_TIMEOUT_MS);
+        },
+
+        triggerMouseEvent: function(originalEvent) {
+            if(this.lastTouchType == this.MOUSE_POINTER_TYPE) {
+                return; //prevent duplicate events
+            }
+
+            this.lastTouchType = this.MOUSE_POINTER_TYPE;
+            $j(window).trigger('mouse-detected', originalEvent);
+        },
+        triggerTouchEvent: function(originalEvent) {
+            if(this.lastTouchType == this.TOUCH_POINTER_TYPE) {
+                return; //prevent duplicate events
+            }
+
+            this.lastTouchType = this.TOUCH_POINTER_TYPE;
+            $j(window).trigger('touch-detected', originalEvent);
+        },
+
+        initEnv: function() {
+            if (window.navigator.pointerEnabled) {
+                this.standardTouch = true;
+                this.touchDetectionEvent = 'pointermove';
+            } else if (window.navigator.msPointerEnabled) {
+                this.standardTouch = true;
+                this.touchDetectionEvent = 'MSPointerMove';
+            } else {
+                this.touchDetectionEvent = 'touchstart';
+            }
+        },
+
+        wirePointerDetection: function() {
+            var that = this;
+
+            if(this.standardTouch) { //standard-based touch events. Wire only one event.
+                //detect pointer event
+                $j(window).on(this.touchDetectionEvent, function(e) {
+                    switch(e.originalEvent.pointerType) {
+                        case that.getPointerEventsInputTypes().MOUSE:
+                            that.triggerMouseEvent(e);
+                            break;
+                        case that.getPointerEventsInputTypes().TOUCH:
+                        case that.getPointerEventsInputTypes().PEN:
+                            // intentionally group pen and touch together
+                            that.triggerTouchEvent(e);
+                            break;
+                    }
+                });
+            } else { //non-standard touch events. Wire touch and mouse competing events.
+                //detect first touch
+                $j(window).on(this.touchDetectionEvent, function(e) {
+                    if(that.pointerEventLock) {
+                        return;
+                    }
+
+                    that.setPointerEventLockTimeout();
+                    that.triggerTouchEvent(e);
+                });
+
+                //detect mouse usage
+                $j(document).on('mouseover', function(e) {
+                    if(that.pointerEventLock) {
+                        return;
+                    }
+
+                    that.setPointerEventLockTimeout();
+                    that.triggerMouseEvent(e);
+                });
+            }
+        },
+
+        init: function() {
+            this.initEnv();
+            this.wirePointerDetection();
         }
-    },
-
-    /**
-     * If called before init(), get best guess of input pointer type
-     * using Modernizr test.
-     * If called after init(), get current pointer in use.
-     */
-    getPointer: function() {
-        // On iOS devices, always default to touch, as this.lastTouchType will intermittently return 'mouse' if
-        // multiple touches are triggered in rapid succession in Safari on iOS
-        if(Modernizr.ios) {
-            return this.TOUCH_POINTER_TYPE;
-        }
-
-        if(this.lastTouchType) {
-            return this.lastTouchType;
-        }
-
-        return Modernizr.touch ? this.TOUCH_POINTER_TYPE : this.MOUSE_POINTER_TYPE;
-    },
-
-    setPointerEventLock: function() {
-        this.pointerEventLock = true;
-    },
-    clearPointerEventLock: function() {
-        this.pointerEventLock = false;
-    },
-    setPointerEventLockTimeout: function() {
-        var that = this;
-
-        if(this.pointerTimeout) {
-            clearTimeout(this.pointerTimeout);
-        }
-
-        this.setPointerEventLock();
-        this.pointerTimeout = setTimeout(function() { that.clearPointerEventLock(); }, this.POINTER_EVENT_TIMEOUT_MS);
-    },
-
-    triggerMouseEvent: function(originalEvent) {
-        if(this.lastTouchType == this.MOUSE_POINTER_TYPE) {
-            return; //prevent duplicate events
-        }
-
-        this.lastTouchType = this.MOUSE_POINTER_TYPE;
-        $j(window).trigger('mouse-detected', originalEvent);
-    },
-    triggerTouchEvent: function(originalEvent) {
-        if(this.lastTouchType == this.TOUCH_POINTER_TYPE) {
-            return; //prevent duplicate events
-        }
-
-        this.lastTouchType = this.TOUCH_POINTER_TYPE;
-        $j(window).trigger('touch-detected', originalEvent);
-    },
-
-    initEnv: function() {
-        if (window.navigator.pointerEnabled) {
-            this.standardTouch = true;
-            this.touchDetectionEvent = 'pointermove';
-        } else if (window.navigator.msPointerEnabled) {
-            this.standardTouch = true;
-            this.touchDetectionEvent = 'MSPointerMove';
-        } else {
-            this.touchDetectionEvent = 'touchstart';
-        }
-    },
-
-    wirePointerDetection: function() {
-        var that = this;
-
-        if(this.standardTouch) { //standard-based touch events. Wire only one event.
-            //detect pointer event
-            $j(window).on(this.touchDetectionEvent, function(e) {
-                switch(e.originalEvent.pointerType) {
-                    case that.getPointerEventsInputTypes().MOUSE:
-                        that.triggerMouseEvent(e);
-                        break;
-                    case that.getPointerEventsInputTypes().TOUCH:
-                    case that.getPointerEventsInputTypes().PEN:
-                        // intentionally group pen and touch together
-                        that.triggerTouchEvent(e);
-                        break;
-                }
-            });
-        } else { //non-standard touch events. Wire touch and mouse competing events.
-            //detect first touch
-            $j(window).on(this.touchDetectionEvent, function(e) {
-                if(that.pointerEventLock) {
-                    return;
-                }
-
-                that.setPointerEventLockTimeout();
-                that.triggerTouchEvent(e);
-            });
-
-            //detect mouse usage
-            $j(document).on('mouseover', function(e) {
-                if(that.pointerEventLock) {
-                    return;
-                }
-
-                that.setPointerEventLockTimeout();
-                that.triggerMouseEvent(e);
-            });
-        }
-    },
-
-    init: function() {
-        this.initEnv();
-        this.wirePointerDetection();
-    }
-};
+    };
+}
 
 /**
  * Default ProductMediaManager for default magento Zoom
  * @type {Object}
  */
-var ProductMediaManager = {
-    IMAGE_ZOOM_THRESHOLD: 20,
-    imageWrapper: null,
+if (typeof ProductMediaManager === 'undefined') {
+    var ProductMediaManager = {
+        IMAGE_ZOOM_THRESHOLD: 20,
+        imageWrapper: null,
 
-    destroyZoom: function() {},
-    initZoom: function() {},
-    wireThumbnails: function() {},
+        destroyZoom: function() {},
+        initZoom: function() {},
+        wireThumbnails: function() {},
 
-    createZoom: function(image) {
-        var img = $j('.product-img-box .product-image img');
+        createZoom: function(image) {
+            var img = $j('.product-img-box .product-image img');
 
-        var srcset = img.attr('srcset'),
-            newSrc = image.attr('src');
-        img.attr('src', newSrc);
+            var srcset = img.attr('srcset'),
+                newSrc = image.attr('src');
+            img.attr('src', newSrc);
 
-        if (srcset) {
-            if (image.attr('srcset')) {
-                img.attr('srcset', image.attr('srcset'));
-            } else {
-                img.removeAttr('srcset');
+            if (srcset) {
+                if (image.attr('srcset')) {
+                    img.attr('srcset', image.attr('srcset'));
+                } else {
+                    img.removeAttr('srcset');
+                }
             }
-        }
-    },
+        },
 
-    swapImage: function(targetImage) {
-        targetImage = $j(targetImage);
-        targetImage.addClass('gallery-image');
+        swapImage: function(targetImage) {
+            targetImage = $j(targetImage);
+            targetImage.addClass('gallery-image');
 
-        var imageGallery = $j('.product-img-box .product-image');
+            var imageGallery = $j('.product-img-box .product-image');
 
-        if (targetImage[0].complete) {
-            ProductMediaManager.createZoom(targetImage);
-        } else {
-            imageGallery.addClass('loading');
-            imagesLoaded(targetImage, function() {
-                imageGallery.removeClass('loading');
+            if (targetImage[0].complete) {
                 ProductMediaManager.createZoom(targetImage);
-            });
+            } else {
+                imageGallery.addClass('loading');
+                imagesLoaded(targetImage, function() {
+                    imageGallery.removeClass('loading');
+                    ProductMediaManager.createZoom(targetImage);
+                });
+            }
+        },
+
+        init: function() {
+            ProductMediaManager.imageWrapper = $j('.product-img-box');
+            $j(document).trigger('product-media-loaded', ProductMediaManager);
         }
-    },
+    };
 
-    init: function() {
-        ProductMediaManager.imageWrapper = $j('.product-img-box');
-        $j(document).trigger('product-media-loaded', ProductMediaManager);
-    }
-};
-
-$j(document).ready(function() {
-    ProductMediaManager.init();
-});
+    $j(document).ready(function() {
+        ProductMediaManager.init();
+    });
+}
 
 // configurable swatches integration
 document.observe("dom:loaded", function () {
